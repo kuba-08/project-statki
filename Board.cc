@@ -14,7 +14,7 @@ Board::Board()
 }
 
 void Board::printBoard(bool reveal) const {
-    cout << "  1 2 3 4 5 6 7 8 9\n";
+    cout << "  0 1 2 3 4 5 6 7 8 9\n";
     for (int i = 0; i < 10; ++i) {
         cout << i << " ";
         for (int j = 0; j < 10; ++j) {
