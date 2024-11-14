@@ -48,6 +48,7 @@ void HumanPlayer::placeShips() {
             
         }
         board.printBoard(true);
+        system("cls");
     }
 }
 
