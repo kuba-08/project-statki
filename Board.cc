@@ -103,7 +103,7 @@ bool Board::receiveAttack(int x, int y) {
     return false;
 }
 
-bool Board::hasbeenShotAt(int row, int col) const
+bool Board::hasbeenShotAt(int x, int y) const
 {
-    return grid[row][col] == 'X' || grid[row][col] == 'O';
+    return grid[x][y] == 'X' || grid[x][y] == 'O';
 }
