@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Board.h"
 #include <iostream>
 using namespace std;
 Game::Game() : player1Wins(0), player2Wins(0)
@@ -22,15 +23,18 @@ void Game::play() {
     Player* currentPlayer = player1.get();
     Player* opponent = player2.get();
 
-    cout << "Rozpocznijmy nową grę!\n";
+    cout << "Rozpocznijmy nowa gre!\n";
 
     player1->placeShips();
     player2->placeShips();
 
     while (!gameOver) {
         bool playerTurn = true; // Zmeinna sprawdzająca czy gracz może wykonać kolejny ruch
-       cout << "\nTura: " << currentPlayer->getName() << "\n";
-        opponent->getBoard().printBoard(false); // wyswietlenie ukrytej planszy przeciwnika
+        cout << "\nTura: " << currentPlayer->getName() << "\n";
+       cout << "-----------------twoja plansza---------------------" << endl;
+        currentPlayer->getBoard().printBoard(true); // wyswietlenie ukrytej planszy przeciwnika 
+        cout << "-----------------plansza przeciwnika---------------------" << endl;
+        opponent->getBoard().printBoard(false); 
         while (playerTurn)
         {
        playerTurn = currentPlayer->takeTurn(*opponent); // wykonanie przez gracza ruchu
@@ -38,12 +42,22 @@ void Game::play() {
        {
         cout << currentPlayer->getName() << " trafia! strzel ponownie, \n";
        }else{
-        cout << currentPlayer->getName() << " pudłuje. \n";
+        cout << currentPlayer->getName() << " pudluje. \n";
+        system("cls");
+        int change;
+        cout << currentPlayer->getName() << " nie trafilesz ostatnim strzalem w statek" << endl;
+        do
+        {
+            cout << "Zmiana gracza na " << opponent->getName() << " wcisnij 1 aby rozpoczac nastepna kolejke" << endl; 
+        cin >> change;
+        } while (change != 1);
+        system("cls");
        }
+       
         // sprawdzanie czy wszystkie statki przeciwnka są zatopione
         if (opponent->getBoard().areAllShipsSunk())
         {
-            cout << currentPlayer->getName() << " wygrał!! \n";
+            cout << currentPlayer->getName() << " wygral!! \n";
             gameOver = true;
             //aktualizacja wyników
             if (currentPlayer == player1.get())
@@ -83,3 +97,7 @@ bool Game::askPlayerAgain()
     cin >> choice;
     return (choice == 't' || choice == 'T');
 }
+
+
+
+
