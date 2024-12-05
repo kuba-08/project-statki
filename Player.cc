@@ -29,25 +29,43 @@ string Player::getName() const {
 HumanPlayer::HumanPlayer(const string& name) : Player(name) {}
 
 void HumanPlayer::placeShips() {
-    cout << name << ", umieść swoje statki:\n";
+    cout << name << ", umiesc swoje statki:\n";
     for (int size : {1, 1, 1, 1, 2, 2, 2, 3, 3, 4}) {
         int x, y, orientation;
         bool placed = false;
-        while (!placed) {
-            board.printBoard(true); // Wyświetla planszę przed każdą próbą
-            cout<< name << ", podaj współrzędne dla statku o rozmiarze " << size << " (x y): ";
+        board.printBoard(true);
+        while (!placed && size == 1)
+          {
+            cout<< name << ", podaj wspolrzedne dla statku o rozmiarze " << size << " (y x): ";
             cin >> x >> y;
-            cout << "Podaj orientację (0 - poziomo, 1 - pionowo): ";
+             
+             placed = board.placeShip(x, y, size, orientation == 0);
+if (!placed)
+{
+    board.canPlaceShip(x, y, size, orientation);
+}
+
+          }
+          board.printBoard(true);
+          system("cls");
+          
+        while (!placed) {
+          board.printBoard(true);
+          
+            cout<< name << ", podaj wspolrzedne dla statku o rozmiarze " << size << " (y x): ";
+            cin >> x >> y;
+            cout << "Podaj orientacje (1 - poziomo, 0 - pionowo): ";
             cin >> orientation;
 
             placed = board.placeShip(x, y, size, orientation == 0);
             if (!placed) {
-                cout << "Nie można umieścić statku w tym miejscu. Spróbuj ponownie.\n";
+                
+                board.canPlaceShip(x, y, size, orientation);
                 
             } 
             
+        
         }
-        board.printBoard(true);
         system("cls");
     }
 }
@@ -57,16 +75,17 @@ bool HumanPlayer::takeTurn(Player& opponent) {
     int x, y;
     while (!validShot)
     {
-        cout << name << ", podaj współrzędne ataku (x y): ";
+        cout << name << ", podaj wspolrzedne ataku (y x): ";
     cin >> x >> y;
     // sprzawdzanie czy strzał nie był już wykonany w to pole
         if (opponent.getBoard().hasbeenShotAt(x, y))
         {
-            cout << " strzelałeś w to miejsce, spróbuj ponownie. \n";
+            cout << " strzelałes w to miejsce, sprobuj ponownie. \n";
+        }else if(x > 10 || y > 10){
+            cout << " strzelasz po za plansze, sprobuj ponownie. \n";
         }else{
-            validShot = true; // pole jest dostepne
+            validShot = true;
         }
-        
     }
     return opponent.getBoard().receiveAttack(x, y);
 }
