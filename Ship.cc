@@ -2,31 +2,51 @@
 #include "Ship.h"
 using namespace std;
 
-Ship::Ship(int size, int row, int col, bool horizontal)
-    : size(size), hits(0), row(row), col(col), horizontal(horizontal) {}
+Ship::Ship(int size, int startX, int startY, bool horizontal)  : size(size), hits(0), isSunkFlag(false), startX(startX), startY(startY), horizontal(horizontal) {}
 
-bool Ship::isSunk() const {
-    return hits >= size;  // Jeśli liczba trafień jest równa lub większa od rozmiaru, statek jest zatopiony
-}
 
-void Ship::hit() {
-    if (hits < size) {
-        hits++;  // Zwiększa liczbę trafień, gdy statek jest trafiony
+bool Ship::occupiesPosition(int x, int y) const
+{
+    if (horizontal)
+    {
+        return (x>= startX && x < startX + size && y == startY);
+    }else{
+        return (y>= startY && y < startY + size && x == startX);
     }
+    
 }
 
-int Ship::getSize() const {
+bool Ship::isSunk() const
+{
+    return isSunkFlag;
+}
+
+void Ship::hit()
+{
+    hits++;
+    if (hits >= size)
+    {
+       isSunkFlag = true; // zatopiony
+    }
+    
+}
+
+int Ship::getSize() const
+{
     return size;
 }
 
-bool Ship::getOrientation() const {
+bool Ship::getOrientation() const
+{
     return horizontal;
 }
 
-int Ship::getRow() const {
-    return row;
+int Ship::getstartX() const
+{
+    return startX;
 }
 
-int Ship::getCol() const {
-    return col;
+int Ship::getstartY() const
+{
+    return startY;
 }
