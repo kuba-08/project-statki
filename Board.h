@@ -1,5 +1,5 @@
 #pragma once
- 
+ #include "Ship.h"
 class Board {
 private:
 
@@ -15,7 +15,8 @@ public:
     bool areAllShipsSunk() const;
     bool receiveAttack(int x, int y);  // Odbiera atak i zwraca true, jeśli trafiony
     bool hasbeenShotAt(int x, int y) const; // metoda sprawdzająca czy dane pole było już trafione
-    // void markAreaArrounShip(int x, int y, int size, bool horizontal); // funcja do umieszczania pudła wokó zatopionego statku
+     
+   
     
 
 
